@@ -1,6 +1,3 @@
-
-
-
 '''
 8 QUEENS
 
@@ -19,21 +16,8 @@ Using A* ( A star ) algorithm
 
     What Hueristic to pick for this problem?
 
-        I can use Euclidean 
-
-            function heuristic(node) =
-        dx = abs(node.x - goal.x)
-        dy = abs(node.y - goal.y)
-        return D * sqrt(dx * dx + dy * dy)
+        I can use Euclidean          
 '''
-
-
-#Creating the graph 
-queens = [1] * 8
-
-# Make 8 queens with representation ( char, number )
-# for i in range(8)
-
 #Create a Priority Queue
 
 #for visted nodes
@@ -51,28 +35,18 @@ queens = [1] * 8
     #check if placement satisfies conditions like no queen is attacking and f ( n ) = g ( n ) + h ( n )
 
 
+#Creating the graph 
+from math import sqrt
 
 
+queens = [1] * 8
 
 #THIS CREATES 8 LIST INSIDE ONE LIST 
 
 GRID = []
 
-# RUN FOR LOOP FIRST TO TEST IF I CAN JUST ADD 
-
-
 for _ in range(8):
     GRID.append([0]* 8)
-
-
-
-# HOW IS THE ITERATION GOING TO WORK ?
-
-    # Start by placing first QUEEN IN COL 0/ OR OUR SO CALLED FIRST COLUMN AND FIRST ROW [0]
-    # Go to next col and ROW + 1
-    #check placement if queen is being attacked so if it check all diagonal rows and sees a 1 it will then stay in that column and do row + 1
-
-
 
 # WE START OUR PROGRAM FROM HERE TO ITERATE THROUGH THE QUEENS LIST WHO ARE ASSIGNED TO 1
 def start(queens):
@@ -84,18 +58,35 @@ def start(queens):
         #Else statement/ conditional places in the next COL like a counter plus 1 and row is also incremented by 1 
         else:
             GRID[k][j] = queens[i]
-            valid_Placement(k,j)
+
+            if valid_Placement(k,j) is True:
+                k+= 1
+                j+= 1
+            else:
+                j+= 1
+                valid_Placement(k,j)
         k += 1
         j += 1
         
 
 #As we excute start function we use valid placement to check for if queens attack each other designated by 1 in the CHESS GRID
-def valid_Placement(place):
-    #IF QUEEN IS 0 THEN WE JUST PLACE IT IN THE FIRST CORNER SPOT GRID[0][0]
-    if GRID[0][0] is 0:
-        GRID[0][0] = queens[0]
 
+#WE RETURN A BOOL 
+def valid_Placement(k,j):
+    #We USE INDEX K and J to check if current placement is valid 
+    ATTACK = True
+    
     return True
+
+#USING EUCLIDEAN DISTANCE TO CHECK ALL 8 SIDES
+
+# COST FOR EACH MOVE IS 1
+#ULTIMATE GOAL IS TO GET H(N) = 0
+def heuristic(node):
+        D = 1
+        dx = abs(node.x - goal.x)
+        dy = abs(node.y - goal.y)
+        return D * sqrt(dx * dx + dy * dy)
 
 start(queens)
 
