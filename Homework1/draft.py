@@ -38,20 +38,24 @@ Using A* ( A star ) algorithm
 #Creating the graph 
 from math import sqrt
 
+QUEENS_NUM = 8
 
-queens = [1] * 8
+#HELPS AVOID HAVING THE SAME OBJECT 
+#They all have own ID 
+queens = [1 for i in range(QUEENS_NUM)]
 
 #THIS CREATES 8 LIST INSIDE ONE LIST 
 
 GRID = []
 
-for _ in range(8):
+for _ in range(len(queens)):
     GRID.append([0]* 8)
 
 # WE START OUR PROGRAM FROM HERE TO ITERATE THROUGH THE QUEENS LIST WHO ARE ASSIGNED TO 1
 def start(queens):
-    k,j = 0,0
-    for i in range(len(queens)):
+    k,j = 1,1
+    for i in range(0,len(GRID),1):
+        
         #If conditional only true once we start the function otherwise it always goes to else 
         if i == 0:
             GRID[0][0] = queens[0]
@@ -62,32 +66,86 @@ def start(queens):
             if valid_Placement(k,j) is True:
                 k+= 1
                 j+= 1
+                print("True excuted: Valid function")
             else:
                 j+= 1
                 valid_Placement(k,j)
-        k += 1
-        j += 1
+                print("Only excuted: Valid Function is False ")
+    
+    
         
 
 #As we excute start function we use valid placement to check for if queens attack each other designated by 1 in the CHESS GRID
 
-#WE RETURN A BOOL 
+#WE RETURN A BOOL IF current queen and placement is valid 
 def valid_Placement(k,j):
-    #We USE INDEX K and J to check if current placement is valid 
-    ATTACK = True
-    
-    return True
+    state = True
 
+    #USE A WHILE LOOP 
+
+        # check all 8 directions with while 
+        # allows us to stay in true state until we find a false 
+        # Minimze code with checking all directions 
+    while k > QUEENS_NUM and j > QUEENS_NUM:
+        #We still check first queen at [0][0] to ensure safety of the one not being moved
+        if GRID[k][j] == 0:
+            state = True
+        else:
+            state = False
+
+    #NORTH YOU DECREMENT INDEX
+        #COL , ROW -1
+             #SOUTH YOU INCREMENT 
+                #COL  , ROW + 1
+                    #EAST YOU DECREMENT 
+                        #ROW - 1, COL
+                            #WEST YOU INCREMENT
+                                #ROW + 1, COL
+                                    #NORTH, WEST YOU DO A MIX OF BOTH
+                                        #N : COL - 1 
+                                            #W : ROW + 1
+                                                #NORTH, EAST YOU DO MIX OF BOTH
+                                                    #N: COL - 1
+                                                    #W: ROW - 1
+                                                        #SOUTH , WEST 
+                                                            #S: COL + 1
+                                                                #W: ROW + 1
+                                                                    #SOUTH , EAST
+                                                                        #S: COL + 1
+                                                                            #E: ROW - 1    
+    
+    return state
+
+
+
+'''
+
+CHECK DIRECTIONS 
+
+FOR EXAMPLE:
+            QUEEN IN POSITION AT 2,2
+
+
+            SO IF WE CHECK UP 
+'''
 #USING EUCLIDEAN DISTANCE TO CHECK ALL 8 SIDES
 
 # COST FOR EACH MOVE IS 1
 #ULTIMATE GOAL IS TO GET H(N) = 0
-def heuristic(node):
-        D = 1
-        dx = abs(node.x - goal.x)
-        dy = abs(node.y - goal.y)
-        return D * sqrt(dx * dx + dy * dy)
+# def heuristic(node):
+#         D = 1
+#         dx = abs(node.x - goal.x)
+#         dy = abs(node.y - goal.y)
+#         return D * sqrt(dx * dx + dy * dy)
 
 start(queens)
 
-print(GRID)
+
+
+
+
+for i in range(len(GRID)):
+    
+    print(GRID[i])
+    print()
+
